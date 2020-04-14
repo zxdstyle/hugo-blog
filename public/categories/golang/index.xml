@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GoLang on 好记性不如烂笔头</title>
+    <link>http://localhost:1313/categories/golang/</link>
+    <description>Recent content in GoLang on 好记性不如烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&lt;a href=&#39;http://www.beian.miit.gov.cn/&#39;&gt;苏ICP备18041352号-1&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 14 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://localhost:1313/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>GoLang 微服务 go-micro 之启蒙篇</title>
+      <link>http://localhost:1313/post/go-micro-started/</link>
+      <pubDate>Tue, 14 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/post/go-micro-started/</guid>
+      <description>Get Started 上来直接一把梭，上代码： // 直接引入我们今天的主角 import ( &amp;quot;fmt&amp;quot; &amp;quot;github.com/micro/go-micro&amp;quot; ) func main() { // 创建一个新的服务 service := micro.NewService() // 初始化 service.Init() // 启动服务 if err := service.Run(); err != nil { fmt.Println(err) } } 然后执</description>
+    </item>
+    
+  </channel>
+</rss>

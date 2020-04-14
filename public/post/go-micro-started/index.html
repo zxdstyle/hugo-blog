@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>GoLang 微服务 go-micro 之启蒙篇 - 好记性不如烂笔头</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="zxdstyle" /><meta name="description" content="Get Started 上来直接一把梭，上代码： // 直接引入我们今天的主角 import ( &amp;quot;fmt&amp;quot; &amp;quot;github.com/micro/go-micro&amp;quot; ) func main() { // 创建一个新的服务 service := micro.NewService() // 初始化 service.Init() // 启动服务 if err := service.Run(); err != nil { fmt.Println(err) } } 然后执" /><meta name="keywords" content="PHP, GoLang, 机器学习, 技术分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0-DEV with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/go-micro-started/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="http://localhost:1313/sass/main.min.8e98986e03f4de96d3226559709bf049486d760631530a83b799ed2fcc9be5a2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="GoLang 微服务 go-micro 之启蒙篇" />
+<meta property="og:description" content="Get Started 上来直接一把梭，上代码： // 直接引入我们今天的主角 import ( &quot;fmt&quot; &quot;github.com/micro/go-micro&quot; ) func main() { // 创建一个新的服务 service := micro.NewService() // 初始化 service.Init() // 启动服务 if err := service.Run(); err != nil { fmt.Println(err) } } 然后执" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/go-micro-started/" />
+<meta property="article:published_time" content="2020-04-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-04-14T00:00:00+00:00" />
+<meta itemprop="name" content="GoLang 微服务 go-micro 之启蒙篇">
+<meta itemprop="description" content="Get Started 上来直接一把梭，上代码： // 直接引入我们今天的主角 import ( &quot;fmt&quot; &quot;github.com/micro/go-micro&quot; ) func main() { // 创建一个新的服务 service := micro.NewService() // 初始化 service.Init() // 启动服务 if err := service.Run(); err != nil { fmt.Println(err) } } 然后执">
+<meta itemprop="datePublished" content="2020-04-14T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-04-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="954">
+
+
+
+<meta itemprop="keywords" content="微服务,服务注册,GoLang,Go Micro," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GoLang 微服务 go-micro 之启蒙篇"/>
+<meta name="twitter:description" content="Get Started 上来直接一把梭，上代码： // 直接引入我们今天的主角 import ( &quot;fmt&quot; &quot;github.com/micro/go-micro&quot; ) func main() { // 创建一个新的服务 service := micro.NewService() // 初始化 service.Init() // 启动服务 if err := service.Run(); err != nil { fmt.Println(err) } } 然后执"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">烂笔头</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">烂笔头</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">GoLang 微服务 go-micro 之启蒙篇</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-14 </span>
+        <div class="post-category">
+            <a href="/categories/golang/"> GoLang </a>
+            <a href="/categories/go-micro/"> Go Micro </a>
+            </div>
+          <span class="more-meta"> 约 954 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#get-started">Get Started</a></li>
+    <li><a href="#服务注册中心">服务注册中心</a></li>
+    <li><a href="#安装-etcd">安装 etcd</a></li>
+    <li><a href="#业务接口">业务接口</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="get-started">Get Started</h1>
+<p>上来直接一把梭，上代码：</p>
+<pre><code class="language-go">// 直接引入我们今天的主角
+import (
+	&quot;fmt&quot;
+	&quot;github.com/micro/go-micro&quot;
+)
+
+func main() {
+	// 创建一个新的服务
+	service := micro.NewService()
+	// 初始化
+	service.Init()
+	// 启动服务
+	if err := service.Run(); err != nil {
+		fmt.Println(err)
+	}
+}
+</code></pre>
+<p>然后执行 <code>go run main.go</code>启动服务，不出意外的话你会看到一下输出（出意外我也没辙😂）</p>
+<pre><code class="language-go">2020-04-13 11:18:47.658403 I | Transport [http] Listening on [::]:55351
+2020-04-13 11:18:47.658510 I | Broker [http] Connected to [::]:55352
+2020-04-13 11:18:47.658929 I | Registry [mdns] Registering node: go.micro.server-7b38a9bc-a20b-4c89-b5b7-fd40cafe22a2
+</code></pre>
+<p>看到这些输出意味着服务正常启动，并且还将服务注册到 mdns 中。这个时候有的人会问了， mdns 是个什么东西。其实 mdns 就是传说中的服务注册中心啦，接下来就讲讲服务注册中心到底是个啥。</p>
+<h1 id="服务注册中心">服务注册中心</h1>
+<p>服务注册中心到底是个啥？举个栗子，一个服务就相当于一个手机号码，你可能记得你家人的手机号码，但是你的朋友老板客户的手机号码你记得么？有的人还有可能有多个手机号码，所以你的手机里有一个通讯录。</p>
+<p>微服务也是，一个两个服务你可以直接告诉调用方有这么个服务，直接调用就好了。那如果有几百几千个服务呢？所以微服务注册中心应运而生。</p>
+<p>注册中心就相当于通讯录，存储了服务与对应服务地址的映射关系。通常一个服务器可能部署多个节点进行负载均衡。比如说现在有一个获取最新文章的接口，因为请求量比较大，我们将这个接口微服务化，并且部署多个节点。那这个时候问题来了,比如说我现在部署了三个节点,分别是<code>127.0.0.1:8001</code>、<code>127.0.0.1:8002</code>、<code>127.0.0.1:8003</code>，请求任意一个节点都可以正常获取数据。</p>
+<ol>
+<li>那客户端怎么知道该请求哪个节点你呢？</li>
+<li>如果某个节点出问题不可用了，该怎么让客户端自动切换到可用节点呢？</li>
+<li>怎么让请求合理的分配到各个节点呢？</li>
+</ol>
+<p>这些问题都可以用服务注册中心来解决，下面举个例子来一一说明：</p>
+<h1 id="安装-etcd">安装 etcd</h1>
+<p>上文启动服务时，go micro 默认使用了 mdns 作为注册中心。我们这里使用 etcd 作为注册中心。</p>
+<p>Mac 可以使用 <code>brew install etcd</code> 安装，用 window 的同学可以自行去 <a href="https://github.com/etcd-io/etcd/releases">github</a> 下载安装。</p>
+<p>安装完成后直接执行 <code>etcd</code> 启动即可。</p>
+<p>然后安装一下 go micro 提供的命令行工具 micro:</p>
+<pre><code>go get github.com/micro/micro/v2
+</code></pre>
+<p>执行 <code>MICRO_REGISTRY=etcd micro web</code> 即可启动 web 界面，访问<code>127.0.0.1:8082</code> 就可以查看到 etcd 中注册了哪些服务。</p>
+<h1 id="业务接口">业务接口</h1>
+<p>上文开启的服务中未实现任何接口，为了方便演示，我们小小改造一下，先使用常用的 gin 框架编写一个 HTTP 接口，并整合到 micro 里。</p>
+<pre><code>import (
+	&quot;github.com/gin-gonic/gin&quot;
+	&quot;github.com/micro/go-micro/registry&quot;
+	&quot;github.com/micro/go-micro/registry/etcd&quot;
+	&quot;github.com/micro/go-micro/web&quot;
+)
+
+func main() {
+	// 指定注册中心
+	etcdReg := etcd.NewRegistry(registry.Addrs(&quot;127.0.0.1:2379&quot;))
+
+	router := gin.Default()
+
+	router.Handle(&quot;GET&quot;, &quot;/hello&quot;, func(context *gin.Context) {
+		context.String(&quot;hello world&quot;)
+	})
+
+	server := web.NewService(
+		// 为我们的服务取个名字 
+		web.Name(&quot;product&quot;),
+		// 指定 handler
+		web.Handler(router),
+		// 将服务注册到 etcd
+		web.Registry(etcdReg),
+	)
+
+	server.Init()
+
+	server.Run()
+}
+</code></pre>
+<p>然后执行 <code>go run main.go</code> 启动服务：</p>
+<p><img src="https://cdn.learnku.com/uploads/images/202004/13/39723/eO9PKVErma.png!large" alt="GoLang 微服务 go-micro 之启蒙篇"></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">zxdstyle</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-04-14
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content">本站所有文章无特殊说明都是原创，转载请注明出处<a rel="license noopener" href="https://www.zxdstyle.cn" target="_blank">www.zxdstyle.cn</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+          <a href="/tags/%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C/">服务注册</a>
+          <a href="/tags/golang/">GoLang</a>
+          <a href="/tags/go-micro/">Go Micro</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/laravel-orm-skill/">
+            <span class="next-text nav-default">Laravel ORM 中哪些你不知道的骚操作</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'laxLplggHHCJK24Dj0s5bMfi-gzGzoHsz',
+        appKey: 'Jq8JGn03QEtrc6g2JWLwg7F7',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  false 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zxdongsty;e@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zxdstyle" class="iconfont icon-github" title="github"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2019 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author"><a href='http://www.beian.miit.gov.cn/'>苏ICP备18041352号-1</a></span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="http://localhost:1313/js/main.4d21c1cefdf1cd0b77ef59bab2d1bbe3112fc9d6cc04710bb1f0b1fd7b891f11.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

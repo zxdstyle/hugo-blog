@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>生产环境中使用 supervisor 运行laravel队列任务 - 好记性不如烂笔头</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="zxdstyle" /><meta name="description" content="安装 supervisor 首先肯定需要安装 supervisor 这个包，我的服务器是 centos 7，使用如下命令装： yum install supervisor 调整配置 在 centos 7 系统中，supervisor 的配置文件默认存放路径是 /etc/supervisord.conf" /><meta name="keywords" content="PHP, GoLang, 机器学习, 技术分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0-DEV with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/linux-supervisor-skill/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="http://localhost:1313/sass/main.min.8e98986e03f4de96d3226559709bf049486d760631530a83b799ed2fcc9be5a2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="生产环境中使用 supervisor 运行laravel队列任务" />
+<meta property="og:description" content="安装 supervisor 首先肯定需要安装 supervisor 这个包，我的服务器是 centos 7，使用如下命令装： yum install supervisor 调整配置 在 centos 7 系统中，supervisor 的配置文件默认存放路径是 /etc/supervisord.conf" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/linux-supervisor-skill/" />
+<meta property="article:published_time" content="2019-04-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-04-01T00:00:00+00:00" />
+<meta itemprop="name" content="生产环境中使用 supervisor 运行laravel队列任务">
+<meta itemprop="description" content="安装 supervisor 首先肯定需要安装 supervisor 这个包，我的服务器是 centos 7，使用如下命令装： yum install supervisor 调整配置 在 centos 7 系统中，supervisor 的配置文件默认存放路径是 /etc/supervisord.conf">
+<meta itemprop="datePublished" content="2019-04-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-04-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="299">
+
+
+
+<meta itemprop="keywords" content="Linux,Supervisor,Laravel," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="生产环境中使用 supervisor 运行laravel队列任务"/>
+<meta name="twitter:description" content="安装 supervisor 首先肯定需要安装 supervisor 这个包，我的服务器是 centos 7，使用如下命令装： yum install supervisor 调整配置 在 centos 7 系统中，supervisor 的配置文件默认存放路径是 /etc/supervisord.conf"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">烂笔头</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">烂笔头</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">生产环境中使用 supervisor 运行laravel队列任务</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-04-01 </span>
+        <div class="post-category">
+            <a href="/categories/linux/"> Linux </a>
+            <a href="/categories/laravel/"> Laravel </a>
+            </div>
+          <span class="more-meta"> 约 299 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装-supervisor">安装 supervisor</a></li>
+    <li><a href="#调整配置">调整配置</a></li>
+    <li><a href="#启动服务">启动服务</a></li>
+    <li><a href="#常用命令">常用命令</a>
+      <ul>
+        <li><a href="#laravel">Laravel</a></li>
+        <li><a href="#supervisord">supervisord</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="安装-supervisor">安装 supervisor</h1>
+<p>首先肯定需要安装 <code>supervisor</code> 这个包，我的服务器是 <code>centos 7</code>，使用如下命令装：</p>
+<pre><code class="language-bash">yum install supervisor
+</code></pre>
+<h1 id="调整配置">调整配置</h1>
+<p>在 <code>centos 7</code> 系统中，supervisor 的配置文件默认存放路径是 <code>/etc/supervisord.conf</code></p>
+<p>修改配置文件：</p>
+<pre><code class="language-bash">[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /path/to/your-project/artisan queue:listen --tries=3
+autostart=true
+autorestart=true
+user=nobody
+numprocs=8
+redirect_stderr=true
+stdout_logfile=/path/to/your-project/worker.log
+</code></pre>
+<h1 id="启动服务">启动服务</h1>
+<p>然后启动 <code>supervisord</code> 服务，使用 <code>systemctl start supervisord</code></p>
+<p>进程起来之后，再执行以下命令：</p>
+<pre><code class="language-bash">supervisorctl start laravel-worker:*
+</code></pre>
+<h1 id="常用命令">常用命令</h1>
+<h2 id="laravel">Laravel</h2>
+<p>重启队列：</p>
+<pre><code class="language-bash">php artisan queue:restart
+</code></pre>
+<p>运行队列监听器（执行队列）</p>
+<pre><code class="language-bash">php artisan queue:listen
+</code></pre>
+<h2 id="supervisord">supervisord</h2>
+<p>更新新的配置到 <code>supervisord</code></p>
+<pre><code class="language-bash">supervisorctl update
+</code></pre>
+<p>重新启动配置中的所有程序</p>
+<pre><code class="language-bash">supervisorctl reload
+</code></pre>
+<p>启动某个进程(program_name=你配置中写的程序名称)</p>
+<pre><code class="language-bash">supervisorctl start program_name
+</code></pre>
+<p>查看正在守候的进程</p>
+<pre><code class="language-bash">supervisorctl
+</code></pre>
+<p>停止某一进程 (program_name=你配置中写的程序名称)</p>
+<pre><code class="language-bash">pervisorctl stop program_name
+</code></pre>
+<p>重启某一进程 (program_name=你配置中写的程序名称)</p>
+<pre><code class="language-bash">supervisorctl restart program_name
+</code></pre>
+<p>停止全部进程</p>
+<pre><code class="language-bash">supervisorctl stop all
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">zxdstyle</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-04-01
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content">本站所有文章无特殊说明都是原创，转载请注明出处<a rel="license noopener" href="https://www.zxdstyle.cn" target="_blank">www.zxdstyle.cn</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">Linux</a>
+          <a href="/tags/supervisor/">Supervisor</a>
+          <a href="/tags/laravel/">Laravel</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/php-ml/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">PHP 实现机器学习挖掘用户的购物习惯</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'laxLplggHHCJK24Dj0s5bMfi-gzGzoHsz',
+        appKey: 'Jq8JGn03QEtrc6g2JWLwg7F7',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  false 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zxdongsty;e@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zxdstyle" class="iconfont icon-github" title="github"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2019 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author"><a href='http://www.beian.miit.gov.cn/'>苏ICP备18041352号-1</a></span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="http://localhost:1313/js/main.4d21c1cefdf1cd0b77ef59bab2d1bbe3112fc9d6cc04710bb1f0b1fd7b891f11.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

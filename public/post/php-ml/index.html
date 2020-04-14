@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>PHP 实现机器学习挖掘用户的购物习惯 - 好记性不如烂笔头</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="zxdstyle" /><meta name="description" content="开场白 经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事" /><meta name="keywords" content="PHP, GoLang, 机器学习, 技术分享" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.69.0-DEV with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/php-ml/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="http://localhost:1313/sass/main.min.8e98986e03f4de96d3226559709bf049486d760631530a83b799ed2fcc9be5a2.css" rel="stylesheet">
+
+
+
+<meta property="og:title" content="PHP 实现机器学习挖掘用户的购物习惯" />
+<meta property="og:description" content="开场白 经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/php-ml/" />
+<meta property="article:published_time" content="2020-03-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-03-13T00:00:00+00:00" />
+<meta itemprop="name" content="PHP 实现机器学习挖掘用户的购物习惯">
+<meta itemprop="description" content="开场白 经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事">
+<meta itemprop="datePublished" content="2020-03-13T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-03-13T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="959">
+
+
+
+<meta itemprop="keywords" content="机器学习,PHP," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="PHP 实现机器学习挖掘用户的购物习惯"/>
+<meta name="twitter:description" content="开场白 经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">烂笔头</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">烂笔头</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">PHP 实现机器学习挖掘用户的购物习惯</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-03-13 </span>
+        <div class="post-category">
+            <a href="/categories/php/"> PHP </a>
+            </div>
+          <span class="more-meta"> 约 959 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#开场白">开场白</a></li>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#apriori-算法">Apriori 算法</a>
+      <ul>
+        <li><a href="#支持度support">支持度[Support]</a></li>
+        <li><a href="#置信度confidence-">置信度[Confidence ]</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据训练">数据训练</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="开场白">开场白</h1>
+<p>经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事😒，这我就不服我了啊。毕竟</p>
+<blockquote>
+<p>PHP 是世界上最好的语言😆</p>
+</blockquote>
+<p>虽然 PHP 的生态导致无法落地机器学习，但还是可以做一些简单的数据分析工作的。</p>
+<h1 id="安装">安装</h1>
+<p>这里推荐 <code>php-ml</code> 这个库，其中包含各种算法，交叉验证，神经网络，预处理，特征提取等等。需要 PHP 版本 <code>7.1</code> 以上， 速度还是可以的。</p>
+<pre><code class="language-bash">	composer require php-ai/php-ml
+</code></pre>
+<h1 id="apriori-算法">Apriori 算法</h1>
+<blockquote>
+<p>Apriori算法是一种挖掘关联规则的频繁项集算法</p>
+</blockquote>
+<p>说简单点，Apriori 算法就是在已有的数据里根据出现的组合频次来总结一定的关联关系。</p>
+<p>这个详细算法不去深究，简单介绍一下他的两个参数。</p>
+<h2 id="支持度support">支持度[Support]</h2>
+<p>$$\displaystyle Support=\frac{同时购买「香烟、打火机」的人数}{总人数}$$</p>
+<p>很好理解，20个购买香烟的人里有19个人都买了打火机，那香烟和打火机肯定是有一定关联。</p>
+<h2 id="置信度confidence-">置信度[Confidence ]</h2>
+<p>置信度就是购买 a 的人同时购买 b 的概率。例如：</p>
+<p>（香烟 =&gt; 打火机）的置信度：</p>
+<p>$$\displaystyle confidence =\frac{同时购买香烟和打火机的人数}{购买香烟的人数}$$</p>
+<p>（打火机 =&gt; 香烟）的置信度：</p>
+<p>$$\displaystyle confidence =\frac{同时购买香烟和打火机的人数}{购买打火机的人数}$$</p>
+<h1 id="数据训练">数据训练</h1>
+<p>理解这两个参数之后我们开始训练我们的机器，让他知道用户购买了香烟之后应该给用户推荐什么。</p>
+<p>首先准备好样本数据：</p>
+<pre><code class="language-php">$samples = [
+
+    ['香烟','打火机'],
+
+    ['香烟','炸鸡','啤酒','鸡排'],
+
+    ['打火机','炸鸡','啤酒','可乐'],
+
+    ['香烟','打火机','炸鸡','啤酒'],
+
+    ['香烟','打火机','炸鸡','可乐']
+
+];
+</code></pre>
+<p>根据上面的公式计算出支持度和可信度。然后开始训练：</p>
+<pre><code class="language-php">use Phpml\Association\Apriori;
+
+$associator  =  new  Apriori($support  =  0.5,  $confidence  =  0.5);
+
+$associator-&gt;train($samples,  []);
+</code></pre>
+<p>速度还是可以的。训练完成之后我们可以获取生成的关联规则：</p>
+<pre><code class="language-php">$associator-&gt;getRules()
+</code></pre>
+<p>然后我们可以来预测一下买了打火机之后，用户可能会买什么：</p>
+<pre><code class="language-php">$associator-&gt;predict(['打火机'])
+
+// [
+//	0 =&gt; [ '香烟' ],
+//	1 =&gt; [ '炸鸡'],
+// ]
+</code></pre>
+<blockquote>
+<p>现在你知道用户买完避孕套该给他推荐啥了吧😏</p>
+</blockquote>
+<p>当然，如果你想保存训练好的模型，下次再使用的话，可以：</p>
+<pre><code class="language-php">	use Phpml\ModelManager;
+
+	// 保存训练好的模型
+	$filepath = '/path/to/store/the/model'; 
+	$manager = new ModelManager();
+	$manager-&gt;saveToFile($associator, $filepath);
+</code></pre>
+<p>从文件读取训练好的模型：</p>
+<pre><code class="language-php">	// 使用
+	$manager = new ModelManager();
+	$filepath = '/path/to/store/the/model'; 
+	$restoredAssociator = $manager-&gt;restoreFromFile($filepath);
+	$restoredAssociator-&gt;predict(['炸鸡']);
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">zxdstyle</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-03-13
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content">本站所有文章无特殊说明都是原创，转载请注明出处<a rel="license noopener" href="https://www.zxdstyle.cn" target="_blank">www.zxdstyle.cn</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+          <a href="/tags/php/">PHP</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/laravel-orm-skill/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Laravel ORM 中哪些你不知道的骚操作</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/linux-supervisor-skill/">
+            <span class="next-text nav-default">生产环境中使用 supervisor 运行laravel队列任务</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'laxLplggHHCJK24Dj0s5bMfi-gzGzoHsz',
+        appKey: 'Jq8JGn03QEtrc6g2JWLwg7F7',
+        notify:  false ,
+        verify:  false ,
+        avatar:'mm',
+        placeholder: '说点什么吧...',
+        visitor:  false 
+    });
+  </script>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:zxdongsty;e@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/zxdstyle" class="iconfont icon-github" title="github"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2019 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author"><a href='http://www.beian.miit.gov.cn/'>苏ICP备18041352号-1</a></span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  
+
+
+
+<script type="text/javascript" src="http://localhost:1313/js/main.4d21c1cefdf1cd0b77ef59bab2d1bbe3112fc9d6cc04710bb1f0b1fd7b891f11.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"  integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
