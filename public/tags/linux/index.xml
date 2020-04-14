@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on 好记性不如烂笔头</title>
-    <link>http://localhost:1313/tags/linux/</link>
+    <link>https://www.zxdstyle.cn/tags/linux/</link>
     <description>Recent content in Linux on 好记性不如烂笔头</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&lt;a href=&#39;http://www.beian.miit.gov.cn/&#39;&gt;苏ICP备18041352号-1&lt;/a&gt;</copyright>
     <lastBuildDate>Mon, 01 Apr 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.zxdstyle.cn/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>生产环境中使用 supervisor 运行laravel队列任务</title>
-      <link>http://localhost:1313/post/linux-supervisor-skill/</link>
+      <link>https://www.zxdstyle.cn/post/linux-supervisor-skill/</link>
       <pubDate>Mon, 01 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/linux-supervisor-skill/</guid>
+      <guid>https://www.zxdstyle.cn/post/linux-supervisor-skill/</guid>
       <description>安装 supervisor 首先肯定需要安装 supervisor 这个包，我的服务器是 centos 7，使用如下命令装： yum install supervisor 调整配置 在 centos 7 系统中，supervisor 的配置文件默认存放路径是 /etc/supervisord.conf</description>
     </item>
     

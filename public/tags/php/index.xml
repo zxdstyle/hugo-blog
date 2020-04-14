@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>PHP on 好记性不如烂笔头</title>
-    <link>http://localhost:1313/tags/php/</link>
+    <link>https://www.zxdstyle.cn/tags/php/</link>
     <description>Recent content in PHP on 好记性不如烂笔头</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&lt;a href=&#39;http://www.beian.miit.gov.cn/&#39;&gt;苏ICP备18041352号-1&lt;/a&gt;</copyright>
     <lastBuildDate>Fri, 13 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/tags/php/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.zxdstyle.cn/tags/php/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>PHP 实现机器学习挖掘用户的购物习惯</title>
-      <link>http://localhost:1313/post/php-ml/</link>
+      <link>https://www.zxdstyle.cn/post/php-ml/</link>
       <pubDate>Fri, 13 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/post/php-ml/</guid>
+      <guid>https://www.zxdstyle.cn/post/php-ml/</guid>
       <description>开场白 经常听说某某某专攻机器学习的程序猿的年薪百万,AI 更是火得不得了😏，提起这些基本都是 Python 、Java、Go、甚至 JavaScript 都有就是没有我们 PHP 什么事</description>
     </item>
     
