@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>&lt;a href=&#39;http://www.beian.miit.gov.cn/&#39;&gt;苏ICP备18041352号-1&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 01 Apr 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://www.zxdstyle.cn/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 01 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://www.zxdstyle.cn/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>生产环境中使用 supervisor 运行laravel队列任务</title>
       <link>https://www.zxdstyle.cn/post/linux-supervisor-skill/</link>

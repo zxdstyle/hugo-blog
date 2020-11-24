@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>less on 好记性不如烂笔头</title>
+    <link>https://www.zxdstyle.cn/tags/less/</link>
+    <description>Recent content in less on 好记性不如烂笔头</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>&lt;a href=&#39;http://www.beian.miit.gov.cn/&#39;&gt;苏ICP备18041352号-1&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 13 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://www.zxdstyle.cn/tags/less/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vue Cli 项目全局使用 less 变量</title>
+      <link>https://www.zxdstyle.cn/post/vue-cli-less/</link>
+      <pubDate>Wed, 13 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.zxdstyle.cn/post/vue-cli-less/</guid>
+      <description>安装插件 yarn add less less-loader style-resources-loader vue-cli-plugin-style-resources-loader -D 新增 less 变量文件 // file variable.less @color: #fff; 调整 vue.config.js 文件 const path = require(&amp;quot;path&amp;quot;) module.exports = { pluginOptions: { &amp;quot;style-resource-loader&amp;quot;:{ preProcessor: &amp;quot;less&amp;quot;, patterns: [path.resolve(__dirname, &amp;quot;./src/assets/less/variable.less&amp;quot;)] } } } 使用 &amp;lt;template&amp;gt; &amp;lt;div class=&amp;quot;test&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;style lang=&amp;quot;less&amp;quot; scoped&amp;gt; .test { background: @color; } &amp;lt;/style&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>
